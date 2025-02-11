@@ -1,0 +1,62 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: web-dep1
+  labels:
+    env: prueba
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      env: prueba
+  template:
+    metadata:
+      labels:
+        env: prueba
+    spec:
+      containers:
+      - name: web
+        image: alberguarchu/tfmweb:latest
+        ports:
+        - containerPort: 80
+      - name: repodown  
+        image: alberguarchu/repogit:latest
+        ports:
+        - containerPort: 8000
+        volumeMounts:
+          - name: repo-storage
+            mountPath: /app/repos
+      volumes:
+        - name: repo-storage
+          hostPath:
+            path: "/mnt/repos"
+            type: DirectoryOrCreate 
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: web
+  labels:
+    env: prueba
+spec:
+  type: NodePort
+  ports:
+  - port: 80
+    nodePort: 30000
+  selector:
+    env: prueba
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: repo
+  labels:
+    env: prueba
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 30001
+  selector:
+    env: prueba
