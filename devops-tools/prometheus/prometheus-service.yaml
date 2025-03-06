@@ -11,6 +11,6 @@ spec:
     app: prometheus-server
   type: NodePort  
   ports:
-    - port: 8080
+    - port: 8090
       targetPort: 9090 
-      nodePort: 30010
+      nodePort: 30015

@@ -17,13 +17,16 @@ services:
 
   jenkins:
     image: jenkins/jenkins:lts
-    user: "1000:1000"
+    user: root
+    privileged: true
     ports:
       - "30002:8080"
+      - "50000:50000"
     environment:
       - JAVA_OPTS=-Xmx2g
     volumes:
       - jenkins-data:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - devops-net
 
@@ -49,6 +52,25 @@ services:
       - grafana-storage:/var/lib/grafana
     networks:
       - devops-net
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+    ports:
+      - 30005:9090
+    restart: unless-stopped
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prom_data:/prometheus
+    networks:
+      - devops-net
+  node-exporter:
+    image: prom/node-exporter
+    ports:
+      - 30006:9100
+    networks:
+      - devops-net
   keycloack:
     image: quay.io/keycloak/keycloak:26.1.2
     environment:
@@ -69,25 +91,7 @@ services:
       - "30007:7080"
     networks:
       - devops-net
-  prometheus:
-    image: prom/prometheus
-    container_name: prometheus
-    command:
-      - '--config.file=/etc/prometheus/prometheus.yml'
-    ports:
-      - 30005:9090
-    restart: unless-stopped
-    volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
-      - prom_data:/prometheus
-    networks:
-      - devops-net
-  node-exporter:
-    image: prom/node-exporter
-    ports:
-      - 9100:9100
-    networks:
-      - devops-net
+
 volumes:
   jenkins-data:
   nexus-data:
