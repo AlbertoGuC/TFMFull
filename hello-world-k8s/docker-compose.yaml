@@ -1,6 +1,6 @@
 services:
   web:
-    image: alberguarchu/tfmweb:latest
+    image: alberguarchu/testj:latest
     ports:
       - "30000:80"
     depends_on:
@@ -16,7 +16,7 @@ services:
       - devops-net
 
   jenkins:
-    image: jenkins/jenkins:lts
+    image: alberguarchu/jenkins-docker:latest
     user: root
     privileged: true
     ports:
@@ -29,7 +29,6 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     networks:
       - devops-net
-
   nexus:
     image: sonatype/nexus:latest
     environment:
