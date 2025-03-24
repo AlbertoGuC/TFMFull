@@ -1,0 +1,23 @@
+DOCKER
+docker build -t tu-usuario/nombre-imagen .
+docker tag nombre-local tu-usuario/nombre-imagen
+docker push tu-usuario/nombre-imagen
+docker run -d -p 3000:8000 alberguarchu/repo
+docker logs nombre-contenedor
+docker ps
+docker exec jenkins cat /var/jenkins_home/secrets/initialAdminPassword
+
+
+KUBERNETES
+minikube ssh
+minikube service nombre-svc
+minikube service repodown --url
+kubectl delete svc --all
+kubectl get svc
+kubectl logs web-dep1-7d6f5b58c9-2fcwz -c repodown
+minikube service list
+kubectl get pods -o wide
+kubectl apply -f cafe.yaml
+kubectl exec -it web-dep1-6978c67644-7st57 -c repodown -- /bin/bash
+curl "http://127.0.0.1:50083/download?url=https://github.com/AlbertoGuC/PASApp"
+kubectl apply -f .
