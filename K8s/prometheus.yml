@@ -18,7 +18,7 @@ scrape_configs:
         - jenkins:8080
     basic_auth:
       username: 'admin'
-      password: '11c71a809c1786d93ddfd52e1db6598cf1'
+      password: '116501bc2ac3f909ad2145972e267003e0'
       #11c71a809c1786d93ddfd52e1db6598cf1
   - job_name: nexus
     metrics_path: '/service/metrics/prometheus'

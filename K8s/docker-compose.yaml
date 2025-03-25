@@ -17,7 +17,7 @@ services:
       - devops-net
 
   jenkins:
-    image: alberguarchu/jenkins-dock-kom:latest #alberguarchu/jenkins-docker:latest
+    image: alberguarchu/jenkins-dock-kom:latest #alberguarchu/jenkins-docker:latest #alberguarchu/docker-jen-kom:latest 
     container_name: jenkins
     user: root
     privileged: true
@@ -74,14 +74,14 @@ services:
     networks:
       - devops-net
   keycloak:
-    image: quay.io/keycloak/keycloak:26.1.4
+    image: quay.io/keycloak/keycloak:24.0.4
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloakdb:5432/keycloak
       KC_DB_USERNAME: keycloak
       KC_DB_PASSWORD: password
 
-      KC_HOSTNAME: localhost:30007
+      KC_HOSTNAME: localhost
       KC_HOSTNAME_STRICT: false
       KC_HOSTNAME_STRICT_HTTPS: false
 
@@ -100,7 +100,7 @@ services:
       - keycloakdb
     ports:
       - "30007:7080"
-      - "7743:7743"
+      - "30015:389"
     networks:
       - devops-net
   keycloakdb:
