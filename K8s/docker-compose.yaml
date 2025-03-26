@@ -43,7 +43,7 @@ services:
       - nexus-data:/nexus-data
     networks:
       - devops-net
-      
+
   grafana:
     image: grafana/grafana-enterprise
     container_name: grafana
@@ -54,6 +54,19 @@ services:
       - grafana-storage:/var/lib/grafana
     networks:
       - devops-net
+    environment:
+      - GF_SERVER_ROOT_URL=http://localhost:30004
+      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+      - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
+      - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=dhDGxdQkuzWOzM6RZ7JNQB5aLP2dvN3I
+      - GF_AUTH_GENERIC_OAUTH_SCOPES=profile email
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/auth
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/userinfo
+      - GF_AUTH_SIGNOUT_REDIRECT_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/logout
+
   prometheus:
     image: prom/prometheus
     container_name: prometheus
