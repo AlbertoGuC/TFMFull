@@ -60,13 +60,14 @@ services:
       - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
       - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
       - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=dhDGxdQkuzWOzM6RZ7JNQB5aLP2dvN3I
+      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=Q0OIx2Gsu1UrJimC5EdjZucmJzawjeJu
       - GF_AUTH_GENERIC_OAUTH_SCOPES=profile email
-      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/auth
-      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/token
-      - GF_AUTH_GENERIC_OAUTH_API_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/userinfo
-      - GF_AUTH_SIGNOUT_REDIRECT_URL=http://host.docker.internal:30007/realms/tfm/protocol/openid-connect/logout
-
+      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/auth
+      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/token
+      - GF_AUTH_GENERIC_OAUTH_API_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/userinfo
+      - GF_AUTH_SIGNOUT_REDIRECT_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/logout
+    depends_on:
+      - keycloak
   prometheus:
     image: prom/prometheus
     container_name: prometheus
@@ -87,7 +88,7 @@ services:
     networks:
       - devops-net
   keycloak:
-    image: quay.io/keycloak/keycloak:24.0.4
+    image: quay.io/keycloak/keycloak:26.1.4
     environment:
       KC_DB: postgres
       KC_DB_URL: jdbc:postgresql://keycloakdb:5432/keycloak
@@ -113,7 +114,6 @@ services:
       - keycloakdb
     ports:
       - "30007:7080"
-      - "30015:389"
     networks:
       - devops-net
   keycloakdb:
