@@ -54,18 +54,18 @@ services:
       - grafana-storage:/var/lib/grafana
     networks:
       - devops-net
-    environment:
-      - GF_SERVER_ROOT_URL=http://localhost:30004
-      - GF_AUTH_GENERIC_OAUTH_ENABLED=true
-      - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
-      - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
-      - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=Q0OIx2Gsu1UrJimC5EdjZucmJzawjeJu
-      - GF_AUTH_GENERIC_OAUTH_SCOPES=profile email
-      - GF_AUTH_GENERIC_OAUTH_AUTH_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/auth
-      - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/token
-      - GF_AUTH_GENERIC_OAUTH_API_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/userinfo
-      - GF_AUTH_SIGNOUT_REDIRECT_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/logout
+    #environment:
+    #  - GF_SERVER_ROOT_URL=http://localhost:30004
+    #  - GF_AUTH_GENERIC_OAUTH_ENABLED=true
+    #  - GF_AUTH_GENERIC_OAUTH_NAME=Keycloak
+    #  - GF_AUTH_GENERIC_OAUTH_ALLOW_SIGN_UP=true
+    #  - GF_AUTH_GENERIC_OAUTH_CLIENT_ID=grafana
+    #  - GF_AUTH_GENERIC_OAUTH_CLIENT_SECRET=Q0OIx2Gsu1UrJimC5EdjZucmJzawjeJu
+    #  - GF_AUTH_GENERIC_OAUTH_SCOPES=profile email
+    #  - GF_AUTH_GENERIC_OAUTH_AUTH_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/auth
+    #  - GF_AUTH_GENERIC_OAUTH_TOKEN_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/token
+    #  - GF_AUTH_GENERIC_OAUTH_API_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/userinfo
+    #  - GF_AUTH_SIGNOUT_REDIRECT_URL=http://localhost:30007/realms/tfm/protocol/openid-connect/logout 
     depends_on:
       - keycloak
   prometheus:
@@ -96,12 +96,12 @@ services:
       KC_DB_PASSWORD: password
 
       KC_HOSTNAME: localhost
-      KC_HOSTNAME_STRICT: false
-      KC_HOSTNAME_STRICT_HTTPS: false
+      KC_HOSTNAME_STRICT: "false"
+      KC_HOSTNAME_STRICT_HTTPS: "false"
 
       KEYCLOAK_ADMIN: admin
       KEYCLOAK_ADMIN_PASSWORD: admin
-      KC_METRICS_ENABLED: true
+      KC_METRICS_ENABLED: "true"
       KC_HEALTH_ENABLED: "true"
       KC_LOG_LEVEL: info
     healthcheck:
