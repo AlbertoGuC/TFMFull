@@ -1,0 +1,10 @@
+{
+  "realm": "jenkins",
+  "auth-server-url": "http://host.docker.internal:30007/",
+  "ssl-required": "external",
+  "resource": "jenkins",
+  "credentials": {
+    "secret": "e2EcJWABv49GvyDPqXtyTsCFfS2JTekt"
+  },
+  "confidential-port": 0
+}
