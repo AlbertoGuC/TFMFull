@@ -1,0 +1,166 @@
+---
+# CRD: ServiceMonitor
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: servicemonitors.monitoring.coreos.com
+spec:
+  group: monitoring.coreos.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+  scope: Namespaced
+  names:
+    kind: ServiceMonitor
+    plural: servicemonitors
+    singular: servicemonitor
+    shortNames:
+      - sm
+
+---
+# CRD: PodMonitor
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: podmonitors.monitoring.coreos.com
+spec:
+  group: monitoring.coreos.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+  scope: Namespaced
+  names:
+    kind: PodMonitor
+    plural: podmonitors
+    singular: podmonitor
+    shortNames:
+      - pm
+
+---
+# CRD: Prometheus
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: prometheuses.monitoring.coreos.com
+spec:
+  group: monitoring.coreos.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+  scope: Namespaced
+  names:
+    kind: Prometheus
+    plural: prometheuses
+    singular: prometheus
+    shortNames:
+      - prom
+
+---
+# CRD: PrometheusRule
+apiVersion: apiextensions.k8s.io/v1
+kind: CustomResourceDefinition
+metadata:
+  name: prometheusrules.monitoring.coreos.com
+spec:
+  group: monitoring.coreos.com
+  versions:
+    - name: v1
+      served: true
+      storage: true
+      schema:
+        openAPIV3Schema:
+          type: object
+  scope: Namespaced
+  names:
+    kind: PrometheusRule
+    plural: prometheusrules
+    singular: prometheusrule
+    shortNames:
+      - rule
+
+---
+# Deployment: Prometheus Operator
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: prometheus-operator
+  namespace: tools
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: prometheus-operator
+  template:
+    metadata:
+      labels:
+        name: prometheus-operator
+    spec:
+      containers:
+        - name: prometheus-operator
+          image: quay.io/prometheus-operator/prometheus-operator:v0.69.1
+          args:
+            - --kubelet-service=kube-system/kubelet
+            - --localhost=127.0.0.1
+            - --prometheus-config-reloader=quay.io/prometheus-operator/prometheus-config-reloader:v0.69.1
+          ports:
+            - containerPort: 8080
+            - containerPort: 443
+
+---
+# ServiceAccount for Prometheus Instance
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: prometheus
+  namespace: tools
+
+---
+# Prometheus Instance with Persistent Volume
+apiVersion: monitoring.coreos.com/v1
+kind: Prometheus
+metadata:
+  name: my-prometheus
+  namespace: tools
+spec:
+  serviceAccountName: prometheus
+  serviceMonitorSelector: {}
+  replicas: 1
+  resources:
+    requests:
+      memory: 400Mi
+  storage:
+    volumeClaimTemplate:
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 10Gi
+        storageClassName: standard
+
+---
+# Service to expose Prometheus Web UI
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-prometheus-service
+  namespace: tools
+spec:
+  selector:
+    prometheus: my-prometheus
+  ports:
+    - name: web
+      port: 9090
+      targetPort: web
+  type: ClusterIP
