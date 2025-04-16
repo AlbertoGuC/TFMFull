@@ -1,0 +1,141 @@
+helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  139  helm repo update
+  140  helm install prometheus prometheus-community/prometheus --namespace tools
+  141  kubectl create namesace tools
+  142  kubectl create namespace tools
+  143  helm install prometheus prometheus-community/prometheus --namespace tools
+  144  kubectl get pods -n tools
+  145  kubectl get svc -n tools
+  146  kubectl expose service prometheus-server --namespace tools --type=NodePort --target-port=9090 --name=prometheus-server-ext\
+  147  kubectl get svc -n tools
+  148  minikube ip
+  149  helm repo add grafana https://grafana.github.io/helm-charts
+  150  helm install grafana grafana/grafana --namespace tools
+  151  kubectl get secret --namespace tools grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+  152  kubectl expose service grafana --namespace tools --type=NodePort --target-port=3000 --name=grafana-ext
+  153  kubectl get svc -n tools
+  154  kubectl get deploy
+  155  kubectl get deploy -n tools
+  156  kubectl get pvc -n tools
+  157  kubectl get pv -n tools
+  158  kubectl get pv 
+  159  kubectl get pvc
+  160  helm upgrade grafana grafana/grafana -f values.yaml -n tools
+  161  kubectl get pvc
+  162  kubectl get pvc -n tools
+  163  kubectl get svc -n tools
+  164  helm list
+  165  helm list -n tolls
+  166  helm list -n tools
+  167  kubectl -f apply nexus.yaml 
+  168  kubectl apply -f nexus.yaml 
+  169  kubectl delete deploy nexus -n tools
+  170  kubectl get deploy
+  171  kubectl delete deploy web-dep1
+  172  kubectl get deploy -n tools
+  173  kubectl apply -f nexus.yaml 
+  174  minikube status
+  175  minikube stop
+  176  minikube stauts
+  177  minikube status
+  178  kubectl get all
+  179  kubectl get all -n tools
+  180  kubectl get pvc
+  181  kubectl get pvc -n tools
+  182  kubectl delete pvc nexus3-pvc -n tools
+  183  minikube start
+  184  minikube status
+  185  minikube stop
+  186  kubectl delete deploy nexus
+  187  minikube start
+  188  kubectl delete deploy nexus
+  189  kubectl delete deploy nexus -n tools
+  190  minikube status
+  191  minikube apply -f jenkins.yaml 
+  192  kubectl apply -f jenkins.yaml 
+  193  minikube status
+  194  minikube service jenkins
+  195  minikube service jenkins -n tools
+  196  kubectl get scv -n tools
+  197  kubectl get svc -n tools
+  198  minikube service jenkins-service -n tools
+  199  kubectl get svc -n tools
+  200  kubectl get deploy -n tools
+  201  kubectl getpods -n tools
+  202  kubectl get pods -n tools
+  203  kubectl logs jenkins-5874c666f4-tpr2b
+  204  kubectl logs jenkins-5874c666f4-tpr2b -n tools
+  205  kubectl get pods -n tools
+  206  kubectl logs jenkins-5874c666f4-tpr2b -n tools
+  207  kubectl logs jenkins-5874c666f4-tpr2b -n tools ?
+  208  kubectl logs jenkins-5874c666f4-tpr2b -n tools
+  209  kubectl get pods -n tools
+  210  kubectl logs jenkins-5874c666f4-tpr2b -n tools
+  211  kubectl get pods -n tools
+  212  kubectl describe pod jenkins-5874c666f4-tpr2b -n tools
+  213  kubectl get pvc -n tools
+  214  kubectl get pv
+  215  kubectl delete pvc jenkins-pv-claim -n tools
+  216  kubectl apply -f jenkins.yaml 
+  217  kubectl get pvc -n tools
+  218  kubectl describe pvc jenkins-pv-claim -n tools
+  219  kubectl get pvc -n tools
+  220  kubectl get pods -n tools
+  221  kubectl delete pods jenkins-5874c666f4-tpr2b   -n tools
+  222  kubectl get pods -n tools
+  223  kubectl describe pvc jenkins-pv-claim -n tools
+  224  kubectl delete -f jenkins.yaml 
+  225  kubectl apply -f jenkins.yaml 
+  226  kubectl describe pvc jenkins-pv-claim -n tools
+  227  kubectl get pods -n tools
+  228  kubectl describe pod jenkins-5874c666f4-ft75f  -n tools
+  229  kubectl describe storageclass local-storage
+  230  kubectl get pv
+  231  kubectl delete pv nexus3-pv
+  232  kubectl get pv
+  233  kubectl delete pv nexus3-pv
+  234  kubectl get pv
+  235  kubectl apply -f jenkins.yaml 
+  236  kubectl get pods -n tools
+  237  kubectl get pv
+  238  kubectl get pods -n tools
+  239  kubectl get svc -n tools
+  240  kubectl delete -f nexus.yaml 
+  241  kubectl delete -f nexus.yaml  -n tools
+  242  kubectl get svc -n tools
+  243  minikube ip
+  244  kubectl get svc jenkins-service -n tools -o yaml
+  245  kubectl get cm -n tools
+  246  kubectl edit cm prometheus-server -n tools
+  247  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  248  kubectl get svc jenkins-service -n tools
+  249  kubectl get endpoints jenkins-service -n tools
+  250  kubectl get pods -n tools -o yaml | grep -A 2 "labels:"
+  251  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  252  minikube restart
+  253  minikube start
+  254  kubectl get svc jenkins-service -n tools -o yaml
+  255  kubectl apply -f jenkins.yaml 
+  256  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  257  kubectl apply -f jenkins.yaml 
+  258  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  259  kubectl get svc -n tools
+  260  kubectl get deploy -n tools
+  261  kubectl get pods -n tools
+  262  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  263  kubectl create secret generic jenkins-auth --from-literal=username=user --from-literal=password=user -n tools
+  264  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  265  kubectl get svc -n tools
+  266  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  267  kubectl get pods -n tools
+  268  kubectl delete pods jenkins -n tools
+  269  kubectl delete pods jenkins-5874c666f4-ft75f -n tools
+  270  kubectl get pods -n tools
+  271  helm upgrade prometheus prometheus-community/prometheus -n tools -f prometheus.yaml
+  272  kubectl get pods -n tools
+  273  kubectl delete pods prometheus-server-87dc57df4-8bphv -n tools
+  274  kubectl get pods -n tools
+  275  kubectl delete pods prometheus-server-87dc57df4-8bphv -n tools
+  276  kubectl get pods -n tools
+  277  kubectl describe pods prometheus-server-87dc57df4-fz6bz .n tools
+  278  kubectl describe pods prometheus-server-87dc57df4-fz6bz -n tools
