@@ -2,16 +2,21 @@ apiVersion: v1
 kind: Service
 metadata:
   name: nexus-service
-  namespace: devops-tools
+  namespace: tools
   annotations:
       prometheus.io/scrape: 'true'
-      prometheus.io/path:   /
+      prometheus.io/path:   /service/metrics/prometheus
       prometheus.io/port:   '8081'
 spec:
   selector: 
     app: nexus-server
-  type: NodePort  
+  type: ClusterIP
   ports:
-    - port: 8081
+    - name: docker
+      protocol: TCP
+      port: 8081
       targetPort: 8081
-      nodePort: 32001
+    - name: admin
+      protocol: TCP
+      port: 8082
+      targetPort: 8082

@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nexus
-  namespace: devops-tools
+  namespace: tools
 spec:
   replicas: 1
   selector:
@@ -15,12 +15,12 @@ spec:
     spec:
       containers:
         - name: nexus
-          image: sonatype/nexus:latest
+          image: sonatype/nexus3:3.78.2
           env:
-          - name: MAX_HEAP
-            value: "800m"
-          - name: MIN_HEAP
-            value: "300m"
+            - name: MAX_HEAP
+              value: "800m"
+            - name: MIN_HEAP
+              value: "300m"
           resources:
             limits:
               memory: "4Gi"
@@ -30,9 +30,11 @@ spec:
               cpu: "500m"
           ports:
             - containerPort: 8081
+            - containerPort: 8082
           volumeMounts:
             - name: nexus-data
-              mountPath: /sonatype-work
+              mountPath: /nexus-data
       volumes:
         - name: nexus-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: nexus-pvc

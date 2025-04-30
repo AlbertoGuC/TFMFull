@@ -805,11 +805,27 @@ serverFiles:
 
       - job_name: 'jenkins'
         static_configs:
-          - targets: ['10.244.0.3:8080']
+          - targets: ['10.105.101.94:8080']
         basic_auth:
           username: 'user'
           password: 'user'
         metrics_path: '/prometheus' 
+
+      - job_name: 'grafana'
+        static_configs:
+          - targets: ['10.101.188.197:80']
+        basic_auth:
+          username: 'admin'
+          password: 'admin'
+        metrics_path: '/metrics'     
+
+      - job_name: 'nexus'
+        static_configs:
+          - targets: ['10.101.27.213:8081']
+        basic_auth:
+          username: 'admin'
+          password: 'admin'
+        metrics_path: '/service/metrics/prometheus' 
       # A scrape configuration for running Prometheus on a Kubernetes cluster.
       # This uses separate scrape configs for cluster components (i.e. API server, node)
       # and services to allow each to use different authentication configs.

@@ -101,7 +101,7 @@ spec:
       serviceAccountName: jenkins-admin
       containers:
         - name: jenkins
-          image: jenkins/jenkins:lts
+          image: alberguarchu/jenkinskom:latest
           # OPTIONAL: check for new floating-tag LTS releases whenever the pod is restarted:
           imagePullPolicy: Always
           resources:
