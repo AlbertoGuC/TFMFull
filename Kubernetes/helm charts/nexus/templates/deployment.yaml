@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "nexus.fullname" . }}
+  namespace: {{ .Release.Namespace }}
+  labels:
+    {{- include "nexus.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app: {{ include "nexus.name" . }}-server
+  template:
+    metadata:
+      labels:
+        app: {{ include "nexus.name" . }}-server
+        {{- with .Values.podLabels }}
+        {{- toYaml . | nindent 8 }}
+        {{- end }}
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: nexus
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy | default "IfNotPresent" }}
+          env:
+            - name: MAX_HEAP
+              value: {{ .Values.javaOptions.maxHeap | default "\"800m\"" | quote }}
+            - name: MIN_HEAP
+              value: {{ .Values.javaOptions.minHeap | default "\"300m\"" | quote }}
+          ports:
+            - containerPort: {{ .Values.service.port | default 8081 }}
+            - containerPort: {{ .Values.service.webdavPort | default 8082 }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: nexus-data
+              mountPath: /nexus-data
+      volumes:
+        - name: nexus-data
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.claimName | default (include "nexus.fullname" .) }}-pvc

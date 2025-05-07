@@ -12,11 +12,11 @@ spec:
     app: nexus-server
   type: ClusterIP
   ports:
-    - name: docker
+    - name: admin
       protocol: TCP
       port: 8081
       targetPort: 8081
-    - name: admin
+    - name: docker
       protocol: TCP
       port: 8082
       targetPort: 8082
