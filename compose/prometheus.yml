@@ -7,7 +7,7 @@ scrape_configs:
     static_configs:
       - targets:
         - prometheus:9090
-  - job_name: elzim # Change to whatever you like
+  - job_name: exporter
     static_configs:
       - targets: 
         - node-exporter:9100
@@ -17,8 +17,8 @@ scrape_configs:
       - targets:
         - jenkins:8080
     basic_auth:
-      username: 'admin'
-      password: '116501bc2ac3f909ad2145972e267003e0'
+      username: 'user'
+      password: '115d93158fc36843d77675864e9e442f85'
       #11c71a809c1786d93ddfd52e1db6598cf1
   - job_name: nexus
     metrics_path: '/service/metrics/prometheus'
