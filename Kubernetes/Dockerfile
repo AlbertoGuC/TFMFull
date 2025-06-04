@@ -14,5 +14,9 @@ RUN curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/s
 RUN curl -L https://github.com/kubernetes/kompose/releases/latest/download/kompose-linux-amd64 -o /usr/local/bin/kompose && \
     chmod +x /usr/local/bin/kompose && \
     apt-get clean
-    
+
+RUN apt-get update && \
+    apt-get install -y buildah && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 USER jenkins
