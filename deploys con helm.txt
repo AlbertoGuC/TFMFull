@@ -1,5 +1,7 @@
 Jenkins
 Usar jenkins.yaml
+helm install jenkinsh jenkins/jenkins -n key
+ helm upgrade jenkinsh jenkins/jenkins  --namespace key  -f jenkins-values.yaml
 
 Prometheus
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
@@ -13,7 +15,7 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm install grafana grafana/grafana --namespace tools
 kubectl get secret --namespace tools grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
 kubectl expose service grafana --namespace tools --type=NodePort --target-port=3000 --name=grafana-ext
-helm upgrade grafana grafana/grafana -f values.yaml -n tools
+helm upgrade grafana grafana/grafana -f graf-values.yaml -n tools
 
 helm list -n tools
 

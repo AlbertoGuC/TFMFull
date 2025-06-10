@@ -77,7 +77,7 @@ controller:
     username: "admin"
     # -- Admin password created as a secret if `controller.admin.createSecret` is true
     # @default -- <random password>
-    password:
+    password: admin
 
     # -- The key in the existing admin secret containing the username
     userKey: jenkins-admin-user
@@ -688,51 +688,23 @@ controller:
   topologySpreadConstraints: {}
 
   ingress:
-    # -- Enables ingress
-    enabled: false
+    enabled: true
+    apiVersion: networking.k8s.io/v1
+    ingressClassName: nginx
 
-    # Override for the default paths that map requests to the backend
-    # -- Override for the default Ingress paths
-    paths: []
-    # - backend:
-    #     serviceName: ssl-redirect
-    #     servicePort: use-annotation
-    # - backend:
-    #     serviceName: >-
-    #       {{ template "jenkins.fullname" . }}
-    #     # Don't use string here, use only integer value!
-    #     servicePort: 8080
+    hostName: jenkins.key
 
-    # For Kubernetes v1.14+, use 'networking.k8s.io/v1beta1'
-    # For Kubernetes v1.19+, use 'networking.k8s.io/v1'
-    # -- Ingress API version
-    apiVersion: "extensions/v1beta1"
-    # -- Ingress labels
-    labels: {}
-    # -- Ingress annotations
-    annotations:
-      {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    # For Kubernetes >= 1.18 you should specify the ingress-controller via the field ingressClassName
-    # See https://kubernetes.io/blog/2020/04/02/improvements-to-the-ingress-api-in-kubernetes-1.18/#specifying-the-class-of-an-ingress
-    # ingressClassName: nginx
+    paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: jenkinsh
+            port:
+              number: 8080
 
-    # Set this path to jenkinsUriPrefix above or use annotations to rewrite path
-    # -- Ingress path
-    path:
-
-    # configures the hostname e.g. jenkins.example.com
-    # -- Ingress hostname
-    hostName:
-    # -- Hostname to serve assets from
-    resourceRootUrl:
-    # -- Ingress TLS configuration
+    annotations: {}
     tls: []
-    # - secretName: jenkins.cluster.local
-    #   hosts:
-    #     - jenkins.cluster.local
-
   # often you want to have your controller all locked down and private,
   # but you still want to get webhooks from your SCM
   # A secondary ingress will let you expose different urls

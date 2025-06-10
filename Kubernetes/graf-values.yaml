@@ -450,7 +450,7 @@ initChownData:
   ## If false, data ownership will not be reset at startup
   ## This allows the grafana-server to be run with an arbitrary user
   ##
-  enabled: true
+  enabled: false
 
   ## initChownData container image
   ##
@@ -867,7 +867,22 @@ grafana.ini:
   grafana_net:
     url: https://grafana.net
   server:
-    domain: "{{ if (and .Values.ingress.enabled .Values.ingress.hosts) }}{{ tpl (.Values.ingress.hosts | first) . }}{{ else }}''{{ end }}"
+    root_url: http://grafana.key/
+  auth:
+    disable_login_form: false
+    disable_signout_menu: false
+  auth.generic_oauth:
+    enabled: true
+    name: Keycloak
+    allow_sign_up: true
+    client_id: grafana
+    scopes: openid email profile
+    auth_url: http://keycloak.key:8080/realms/jen/protocol/openid-connect/auth
+    token_url: http://keycloak.key:8080/realms/jen/protocol/openid-connect/token
+    api_url: http://keycloak.key:8080/realms/jen/protocol/openid-connect/userinfo
+
+envFromSecret: grafana-oauth-secret
+
 ## grafana Authentication can be enabled with the following values on grafana.ini
  # server:
       # The full public facing url you use in browser, used for redirects and emails

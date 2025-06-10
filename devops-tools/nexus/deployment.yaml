@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nexus
-  namespace: tools
+  namespace: prueba
 spec:
   replicas: 1
   selector:
@@ -21,6 +21,7 @@ spec:
               value: "800m"
             - name: MIN_HEAP
               value: "300m"
+            
           resources:
             limits:
               memory: "4Gi"
