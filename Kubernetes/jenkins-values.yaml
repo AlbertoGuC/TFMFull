@@ -36,7 +36,7 @@ controller:
     # -- Controller image registry
     registry: "docker.io"
     # -- Controller image repository
-    repository: "alberguarchu/jenkinskom"
+    repository: "jenkins/jenkins"
 
     # -- Controller image tag override; i.e., tag: "2.440.1-jdk21"
     tag: latest
@@ -504,7 +504,7 @@ controller:
   # etc. Best reference is https://<jenkins_url>/configuration-as-code/reference. The example below creates a welcome message:
   JCasC:
     # -- Enables default Jenkins configuration via configuration as code plugin
-    defaultConfig: true
+    defaultConfig: false
 
     # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
@@ -692,7 +692,7 @@ controller:
     apiVersion: networking.k8s.io/v1
     ingressClassName: nginx
 
-    hostName: jenkins.key
+    hostName: jenkins
 
     paths:
       - path: /
@@ -1152,25 +1152,68 @@ agent:
   # controller.JCasC.defaultConfig: true
   # Best reference is https://<jenkins_url>/configuration-as-code/reference#Cloud-kubernetes. The example below creates a python pod template.
   # -- Configures extra pod templates for the default kubernetes cloud
-  podTemplates: {}
-  #  python: |
-  #    - name: python
-  #      label: jenkins-python
-  #      serviceAccount: jenkins
-  #      containers:
-  #        - name: python
-  #          image: python:3
-  #          command: "/bin/sh -c"
-  #          args: "cat"
-  #          ttyEnabled: true
-  #          privileged: true
-  #          resourceRequestCpu: "400m"
-  #          resourceRequestMemory: "512Mi"
-  #          resourceLimitCpu: "1"
-  #          resourceLimitMemory: "1024Mi"
-
-# Inherits all values from `agent` so you only need to specify values which differ
-# -- Configure additional
+  podTemplates:
+      jenkinsagentehelm: |
+        - name: jenkinsagentehelm
+          label: helm
+          namespace: prueba
+          serviceAccount: jenkins
+          containers:
+            - name: jnlp
+              image: alberguarchu/jenkinsagenthelm:1.0
+              alwaysPullImage: false
+              args: "${computer.jnlpmac} ${computer.name}"
+              ttyEnabled: false
+              resourceRequestCpu: "512m"
+              resourceRequestMemory: "512Mi"
+              resourceLimitCpu: "512m"
+              resourceLimitMemory: "512Mi"
+      jenkinsagentekubectl: |
+        - name: jenkinsagentekubectl
+          label: kubectl
+          namespace: prueba
+          serviceAccount: jenkins
+          containers:
+            - name: jnlp
+              image: alberguarchu/jenkinsagentkubectl:1.0
+              alwaysPullImage: false
+              args: "${computer.jnlpmac} ${computer.name}"
+              ttyEnabled: false
+              resourceRequestCpu: "512m"
+              resourceRequestMemory: "512Mi"
+              resourceLimitCpu: "512m"
+              resourceLimitMemory: "512Mi"
+      jenkinsagentekomp: |
+        - name: jenkinsagentekompose
+          label: kompose
+          namespace: prueba
+          serviceAccount: jenkins
+          containers:
+            - name: jnlp
+              image: alberguarchu/jenkinsagentkomp:1.0
+              alwaysPullImage: false
+              args: "${computer.jnlpmac} ${computer.name}"
+              ttyEnabled: false
+              resourceRequestCpu: "512m"
+              resourceRequestMemory: "512Mi"
+              resourceLimitCpu: "512m"
+              resourceLimitMemory: "512Mi"
+      jenkinsagentebuildah: |
+        - name: jenkinsagentebuildah
+          label: buildah
+          namespace: prueba
+          serviceAccount: jenkins
+          containers:
+            - name: jnlp
+              image: alberguarchu/jenkinsagentbuildah:1.0
+              alwaysPullImage: false
+              args: "${computer.jnlpmac} ${computer.name}"
+              ttyEnabled: false
+              resourceRequestCpu: "512m"
+              resourceRequestMemory: "512Mi"
+              resourceLimitCpu: "512m"
+              resourceLimitMemory: "512Mi"
+              privileged: true
 additionalAgents: {}
 #  maven:
 #    podName: maven
