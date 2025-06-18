@@ -803,12 +803,20 @@ serverFiles:
           - targets:
             - localhost:9090
 
+    #  - job_name: 'jenkins-key'
+ #       static_configs:
+ #         - targets: ['10.105.230.57:8080']
+ #       basic_auth:
+  #        username: 'prometheus'
+  #        password: '11dc67def848ace3d41352df84a5e1f8de'
+  #      metrics_path: '/prometheus' 
+
       - job_name: 'jenkins'
         static_configs:
-          - targets: ['10.105.101.94:8080']
+          - targets: ['10.100.57.228:8080']
         basic_auth:
-          username: 'user'
-          password: 'user'
+          username: 'prometheus'
+          password: '11d713deacefcc3faf7770d827d3ed95c4'
         metrics_path: '/prometheus' 
 
       - job_name: 'grafana'
@@ -821,7 +829,7 @@ serverFiles:
 
       - job_name: 'nexus'
         static_configs:
-          - targets: ['10.101.27.213:8081']
+          - targets: ['10.96.209.218:8081']
         basic_auth:
           username: 'admin'
           password: 'admin'

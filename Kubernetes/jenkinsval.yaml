@@ -406,6 +406,9 @@ controller:
     - workflow-aggregator:608.v67378e9d3db_1
     - git:5.7.0
     - configuration-as-code:1971.vf9280461ea_89
+    - prometheus:819.v50953a_c560dd
+    - oic-auth:4.520.v7208b_4ff730b_
+    - metrics:4.2.32-476.v5042e1c1edd7
 
   # If set to false, Jenkins will download the minimum required version of all dependencies.
   # -- Download the minimum required version or latest version of all dependencies
@@ -505,7 +508,7 @@ controller:
   JCasC:
     # -- Enables default Jenkins configuration via configuration as code plugin
     defaultConfig: false
-
+    enabled: true
     # If true, the init container deletes all the plugin config files and Jenkins Config as Code overwrites any existing configuration
     # -- Whether Jenkins Config as Code should overwrite any existing configuration
     overwriteConfiguration: false
@@ -519,7 +522,7 @@ controller:
           securityRealm: 
             oic:
               allowedTokenExpirationClockSkewSeconds: 0
-              clientId: "jenkins bueno"
+              clientId: "jenkins"
               clientSecret: "GEr2XlhtI2GxsvHQ2EjNKi2hA1Ir8wi2"
               disableSslVerification: false
               groupIdStrategy: "caseSensitive"
@@ -543,14 +546,11 @@ controller:
 
     # Ignored if securityRealm is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Security Realm-section
-    securityRealm: |-
+    securityRealm:
       local:
-        allowsSignup: false
-        enableCaptcha: false
         users:
-        - id: "${chart-admin-username}"
-          name: "Jenkins Admin"
-          password: "${chart-admin-password}"
+          - id: admin
+            password: "admin"
 
     # Ignored if authorizationStrategy is defined in controller.JCasC.configScripts
     # -- Jenkins Config as Code Authorization Strategy-section
@@ -707,7 +707,7 @@ controller:
     apiVersion: networking.k8s.io/v1
     ingressClassName: nginx
 
-    hostName: jenkins
+    hostName: jenkins.key
 
     paths:
       - path: /
@@ -791,13 +791,13 @@ controller:
     # https://plugins.jenkins.io/prometheus
 
     # -- Enables prometheus service monitor
-    enabled: false
+    enabled: true
     # -- Additional labels to add to the service monitor object
     serviceMonitorAdditionalLabels: {}
     # -- Set a custom namespace where to deploy ServiceMonitor resource
     serviceMonitorNamespace:
     # -- How often prometheus should scrape metrics
-    scrapeInterval: 60s
+    scrapeInterval: 15s
 
     # Defaults to the default endpoint used by the prometheus plugin
     # -- The endpoint prometheus should get metrics from
