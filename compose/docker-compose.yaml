@@ -26,6 +26,7 @@ services:
       - "50000:50000"
     environment:
       - JAVA_OPTS=-Xmx2g
+      - TZ=Europe/Madrid
     volumes:
       - jenkins-data:/var/jenkins_home
       - /var/run/docker.sock:/var/run/docker.sock
@@ -124,25 +125,6 @@ services:
       POSTGRES_PASSWORD: password
     volumes:
       - keycloakdb_data:/var/lib/postgresql/data
-    networks:
-      - devops-net
-  datadog:
-    image: datadog/agent:latest
-    container_name: datadog
-    environment:
-      - DD_API_KEY=47d88bb873e11ae2427dcdfee6b4d07f
-      - DD_HOSTNAME=ddstack
-      - DD_ENV=development
-      - DD_SERVICE=devops-app
-      - DD_VERSION=latest
-      - DD_DOCKER_SOCKET_PATH=/var/run/docker.sock
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock:ro
-      - /proc:/host/proc:ro
-      - /sys:/host/sys:ro
-    ports:
-      - "8125:8125/udp"
-      - "8126:8126"
     networks:
       - devops-net
 volumes:
